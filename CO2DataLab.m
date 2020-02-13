@@ -9,6 +9,7 @@
 % Hint: you can again use the function “readtable”, and use your first data lab code as an example.
 %<--
 
+
 %% 2a. Create new 3-dimensional arrays to hold reshaped data
 %Find each unique longitude, latitude, and month value that will define
 %your 3-dimensional grid
