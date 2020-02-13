@@ -7,23 +7,33 @@
 % The data file is included in your repository as “LDEO_GriddedCO2_month_flux_2006c.csv”
 % Your task is to write code to read this in to MATLAB
 % Hint: you can again use the function “readtable”, and use your first data lab code as an example.
-%<--
+filename = 'LDEO_GriddedCO2_month_flux_2006c.csv'; %change this to select a different station
+CO2data = readtable(filename);
+
 
 
 %% 2a. Create new 3-dimensional arrays to hold reshaped data
 %Find each unique longitude, latitude, and month value that will define
 %your 3-dimensional grid
 longrid = unique(CO2data.LON); %finds all unique longitude values
- %<-- following the same approach, find all unique latitude values
+latgrid= unique(CO2data.LAT);
+month= unique(CO2data.MONTH);%<-- following the same approach, find all unique latitude values
  %<-- following the same approach, find all unique months
 
 %Create empty 3-dimensional arrays of NaN values to hold your reshaped data
     %You can make these for any variables you want to extract - for this
     %lab you will need PCO2_SW (seawater pCO2) and SST (sea surface
     %temperature)
-%<--
-%<--
+%LLM= [oceandata.LAT, oceandata.LON, oceandata.MONTH]
+%lat,log,month to put in pCO@ and SST
+%look one , by one, by one and then drop
+reshapeddata= NaN(length(latgrid),length(longrid),length(month))
 
+for i= 1:210804
+    help =find(CO2data(longrid(i))
+end
+   find(CO2data(PCO2_SW(i))= latgrid(i),longrid(i), month(i)
+find in co2data where pco2sw has a latgrid,longrid, month in the same row 
 %% 2b. Pull out the seawater pCO2 (PCO2_SW) and sea surface temperature (SST)
 %data and reshape it into your new 3-dimensional arrays
 
