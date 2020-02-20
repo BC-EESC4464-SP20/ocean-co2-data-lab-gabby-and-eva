@@ -64,7 +64,7 @@ end
 
 imagesc(reshapeddata_PCO2(:,:,1));
 
-
+figure(2);clf
 imagesc(reshapeddata_SST(:,:,1));
 
 
@@ -75,7 +75,7 @@ imagesc(reshapeddata_SST(:,:,1));
 
 figure(1); clf
 worldmap world
-contourf(latgrid, longrid, reshapeddata_SST(:,:,1)','linecolor','none');
+contourfm(latgrid, longrid, SST(:,:,1)','linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('January Sea Surface Temperature (^oC)')
@@ -86,13 +86,6 @@ title('January Sea Surface Temperature (^oC)')
 %interval, color of the contour lines, labels, etc.
 
 %<--
-
-figure(1); clf
-worldmap world
-contourf(latgrid, longrid, reshapeddata_PC02(:,:,1)','linecolor','none');
-colorbar
-geoshow('landareas.shp','FaceColor','black')
-title('January Sea Surface Temperature (^oC)')
 
 %% 4. Calculate and plot a global map of annual mean pCO2
 %<--
