@@ -47,20 +47,21 @@ end
 %lat,log,month to put in pCO@ and SST
 %look one , by one, by one and then drop
 <<<<<<< HEAD
+<<<<<<< HEAD
 reshapeddata= NaN(length(latgrid),length(longrid),length(month));
+=======
+reshapeddata= NaN(length(latgrid),length(longrid),length(month))
+>>>>>>> parent of 73b35de... Did you get it?
 
-% find(CO2data(PCO2_SW(i))= latgrid(i),longrid(i), month(i)
-
-% find in co2data where pco2sw has a latgrid,longrid, month in the same row 
+for i= 1:210804
+    help =find(CO2data(longrid(i))
+end
+   find(CO2data(PCO2_SW(i))= latgrid(i),longrid(i), month(i)
+find in co2data where pco2sw has a latgrid,longrid, month in the same row 
 %% 2b. Pull out the seawater pCO2 (PCO2_SW) and sea surface temperature (SST)
 %data and reshape it into your new 3-dimensional arrays
 
-% for i= 1:height(CO2data)
-% a=find(CO2data.LAT(i)==latgrid);
-% b=find(CO2data.LON(i)==longrid);
-% c=find(CO2data.MONTH(i)==month);
-% reshapeddata(a,b,c)=CO2data.PCO2_SW(i);
-% end
+%<--
 
 
 
@@ -76,18 +77,23 @@ reshapeddata= NaN(length(latgrid),length(longrid),length(month));
 %will have to pick one at a time to check - i.e. this example is just for
 %January
 
+<<<<<<< HEAD
 imagesc(reshapeddata_PCO2(:,:,1));
 
 
 imagesc(reshapeddata_SST(:,:,1));
 
 >>>>>>> c9c68306ab82a304d2d263d25de5746b83970f7d
+=======
+imagesc(SST(:,:,1))
+>>>>>>> parent of 73b35de... Did you get it?
 
 %% 3b. Now pretty global maps of one month of each of SST and pCO2 data.
 %I have provided example code for plotting January sea surface temperature
 %(though you may need to make modifications based on differences in how you
 %set up or named your variables above).
 
+<<<<<<< HEAD
 
 % figure(1); clf
 % worldmap world
@@ -103,6 +109,14 @@ colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('January Sea Surface Temperature (^oC)')
 >>>>>>> c9c68306ab82a304d2d263d25de5746b83970f7d
+=======
+figure(1); clf
+worldmap world
+contourfm(latgrid, longrid, SST(:,:,1)','linecolor','none');
+colorbar
+geoshow('landareas.shp','FaceColor','black')
+title('January Sea Surface Temperature (^oC)')
+>>>>>>> parent of 73b35de... Did you get it?
 
 %Check that you can make a similar type of global map for another month
 %and/or for pCO2 using this approach. Check the documentation and see
@@ -140,7 +154,11 @@ title('January Sea Surface Temperature (^oC)')
 % But please use better colormaps!!!
 % Mark on thesese maps the locations of the three stations for which you plotted the
 % seasonal cycle above
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> parent of 73b35de... Did you get it?
 
+%<--
