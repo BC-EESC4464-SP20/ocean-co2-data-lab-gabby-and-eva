@@ -26,17 +26,20 @@ month= unique(CO2data.MONTH);%<-- following the same approach, find all unique l
 %LLM= [oceandata.LAT, oceandata.LON, oceandata.MONTH]
 %lat,log,month to put in pCO@ and SST
 %look one , by one, by one and then drop
-reshapeddata= NaN(length(latgrid),length(longrid),length(month))
+reshapeddata= NaN(length(latgrid),length(longrid),length(month));
 
-for i= 1:210804
-    help =find(CO2data(longrid(i))
-end
-   find(CO2data(PCO2_SW(i))= latgrid(i),longrid(i), month(i)
-find in co2data where pco2sw has a latgrid,longrid, month in the same row 
+% find(CO2data(PCO2_SW(i))= latgrid(i),longrid(i), month(i)
+
+% find in co2data where pco2sw has a latgrid,longrid, month in the same row 
 %% 2b. Pull out the seawater pCO2 (PCO2_SW) and sea surface temperature (SST)
 %data and reshape it into your new 3-dimensional arrays
 
-%<--
+% for i= 1:height(CO2data)
+% a=find(CO2data.LAT(i)==latgrid);
+% b=find(CO2data.LON(i)==longrid);
+% c=find(CO2data.MONTH(i)==month);
+% reshapeddata(a,b,c)=CO2data.PCO2_SW(i);
+% end
 
 %% 3a. Make a quick plot to check that your reshaped data looks reasonable
 %Use the imagesc plotting function, which will show a different color for
@@ -44,19 +47,19 @@ find in co2data where pco2sw has a latgrid,longrid, month in the same row
 %will have to pick one at a time to check - i.e. this example is just for
 %January
 
-imagesc(SST(:,:,1))
+
 
 %% 3b. Now pretty global maps of one month of each of SST and pCO2 data.
 %I have provided example code for plotting January sea surface temperature
 %(though you may need to make modifications based on differences in how you
 %set up or named your variables above).
 
-figure(1); clf
-worldmap world
-contourfm(latgrid, longrid, SST(:,:,1)','linecolor','none');
-colorbar
-geoshow('landareas.shp','FaceColor','black')
-title('January Sea Surface Temperature (^oC)')
+% figure(1); clf
+% worldmap world
+% contourfm(latgrid, longrid, SST(:,:,1)','linecolor','none');
+% colorbar
+% geoshow('landareas.shp','FaceColor','black')
+% title('January Sea Surface Temperature (^oC)')
 
 %Check that you can make a similar type of global map for another month
 %and/or for pCO2 using this approach. Check the documentation and see
@@ -84,5 +87,26 @@ title('January Sea Surface Temperature (^oC)')
 % But please use better colormaps!!!
 % Mark on thesese maps the locations of the three stations for which you plotted the
 % seasonal cycle above
+C= hypotenuse(15,47)
+C2 = hypotenuse(12, 50);
 
-%<--
+if Csquared > C2squared
+
+              C2 = C;
+
+end 
+
+function C = hypotenuse(A,B);
+
+% Computes the length C of the hypotenuse of a right-angle triangle
+
+% in terms of the lengths A and B of the other sides
+
+              Csquared = (A.^2 + B.^2);
+
+              C = sqrt(Csquared)
+              
+              
+
+end
+
