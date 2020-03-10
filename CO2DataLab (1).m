@@ -158,18 +158,30 @@ PCO2_T=PCO2_Tobs
 %Bermuda
 
 [M_BATS_LAT,I_BATS_LAT]=min(abs(latgrid-32.5))
+
+[M_BATS_LON,I_BATS_LON]=min(abs(longrid-(-54.1+360)))
+
 [M_BATS_LON,I_BATS_LON]=min(abs(longrid-64.1))
+
 
 
 % Ross Sea
 
 [M_RS_LAT,I_RS_LAT]=min(abs(latgrid+76.5))
+
+[M_RS_LON,I_RS_LON]=min(abs(longrid-(-173+360)))
+
 [M_RS_LON,I_RS_LON]=min(abs(longrid-173))
+
 
 % P station
 
 [M_PS_LAT,I_PS_LAT]=min(abs(latgrid-50))
+
+[M_PS_LON,I_PS_LON]=min(abs(longrid-215))
+
 [M_PS_LON,I_PS_LON]=min(abs(longrid-145))
+
 
 
 
@@ -181,9 +193,40 @@ PCO2_T=PCO2_Tobs
 %Seasonal Biological Drawdown of Seawater pCO2
 figure(5); clf
 worldmap world
-contourfm(latgrid, longrid, PCO2BP(:,:,1),'linecolor','none');
+contourfm(latgrid, longrid, PCO2_BP(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('The difference annual mean PCO2 between seawater and air')
+title('Seasonal Biological Drawdown of Seawater pCO2')
+scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON))
+scatterm(latgrid(I_RS_LAT),longrid(I_RS_LON))
+scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON))
 
-%<--
+%%
+%Seasonal Temperature Effect on Seawater pCO2
+figure(6); clf
+worldmap world
+contourfm(latgrid, longrid, PCO2_T(:,:,1),'linecolor','none');
+colorbar
+geoshow('landareas.shp','FaceColor','black')
+title('Seasonal Temperature Effect on Seawater pCO2')
+scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON))
+scatterm(latgrid(I_RS_LAT),longrid(I_RS_LON))
+scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON))
+%%
+% The difference (T-B) between the effects on pCO2 of seasonalo temperature
+% changes and biology
+
+TBdiff=PCO2_T-PCO2_BP
+figure(6); clf
+worldmap world
+contourfm(latgrid, longrid, TBdiff(:,:,1),'linecolor','none');
+colorbar
+geoshow('landareas.shp','FaceColor','black')
+title('The difference (T-B) between the effects on pCO2 of seasonalo temperature changes and biology')
+scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON))
+scatterm(latgrid(I_RS_LAT),longrid(I_RS_LON))
+scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON))
+
+
+
+
