@@ -161,29 +161,19 @@ PCO2_T=PCO2_Tobs
 
 [M_BATS_LON,I_BATS_LON]=min(abs(longrid-(-54.1+360)))
 
-[M_BATS_LON,I_BATS_LON]=min(abs(longrid-64.1))
-
-
 
 % Ross Sea
 
 [M_RS_LAT,I_RS_LAT]=min(abs(latgrid+76.5))
 
-[M_RS_LON,I_RS_LON]=min(abs(longrid-(-173+360)))
-
-[M_RS_LON,I_RS_LON]=min(abs(longrid-173))
+[M_RS_LON,I_RS_LON]=min(abs(longrid+(-173+360)))
 
 
 % P station
 
 [M_PS_LAT,I_PS_LAT]=min(abs(latgrid-50))
 
-[M_PS_LON,I_PS_LON]=min(abs(longrid-215))
-
-[M_PS_LON,I_PS_LON]=min(abs(longrid-145))
-
-
-
+[M_PS_LON,I_PS_LON]=min(abs(longrid+(145-360)))
 
 %% 8. Reproduce your own versions of the maps in figures 7-9 in Takahashi et al. 2002
 % But please use better colormaps!!!
@@ -209,7 +199,7 @@ contourfm(latgrid, longrid, PCO2_T(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Seasonal Temperature Effect on Seawater pCO2')
-scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON))
+scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON), "filled:)
 scatterm(latgrid(I_RS_LAT),longrid(I_RS_LON))
 scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON))
 %%
