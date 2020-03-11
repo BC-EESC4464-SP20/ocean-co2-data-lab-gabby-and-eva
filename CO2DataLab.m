@@ -31,6 +31,11 @@ month= unique(CO2data.MONTH);
 %look one , by one, by one and then drop
 
 reshapeddata_PCO2=NaN(length(latgrid),length(longrid),length(month));
+ 
+reshapeddata_SST=NaN(length(latgrid),length(longrid),length(month));
+
+%% 2b. Pull out the seawater pCO2 (PCO2_SW) and sea surface temperature (SST)
+%data and reshape it into your new 3-dimensional arrays
 
 for i=1:height(CO2data)
     a=find(CO2data.LAT(i)==latgrid);
@@ -38,8 +43,6 @@ for i=1:height(CO2data)
     c=find(CO2data.MONTH(i)==month);
     reshapeddata_PCO2(a,b,c)= CO2data.PCO2_SW(i);
 end
- 
-reshapeddata_SST=NaN(length(latgrid),length(longrid),length(month));
 
 for i=1:height(CO2data)
    a=find(CO2data.LAT(i)==latgrid);
@@ -47,13 +50,6 @@ for i=1:height(CO2data)
    c=find(CO2data.MONTH(i)==month);
    reshapeddata_SST(a,b,c)= CO2data.SST(i);
 end
-
-
-%% 2b. Pull out the seawater pCO2 (PCO2_SW) and sea surface temperature (SST)
-%data and reshape it into your new 3-dimensional arrays
-
-% This is above 
-
 %% 3a. Make a quick plot to check that your reshaped data looks reasonable
 %Use the imagesc plotting function, which will show a different color for
 %each grid cell in your map. Since you can't plot all months at once, you
@@ -101,7 +97,7 @@ imagesc(annualmeanPCO2);
 
 figure(3); clf
 worldmap world
-contourfm(latgrid, longrid, annualmeanPCO2(:,:,1),'linecolor','none');
+contourfm(latgrid, longrid, annualmeanPCO2(:,:),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Annual Mean PCO2')
@@ -111,15 +107,15 @@ title('Annual Mean PCO2')
 
 % reshapeddata_PCO2AIR=NaN(length(latgrid),length(longrid),length(month));
 % for i=1:height(CO2data)
-%    a=find(CO2data.LAT(i)==latgrid);
-%    b=find(CO2data.LON(i)==longrid);
-%    c=find(CO2data.MONTH(i)==month);
-%    reshapeddata_PCO2AIR(a,b,c)= CO2data.PCO2_AIR(i);
+%     a=find(CO2data.LAT(i)==latgrid);
+%     b=find(CO2data.LON(i)==longrid);
+%     c=find(CO2data.MONTH(i)==month);
+%     reshapeddata_PCO2AIR(a,b,c)= CO2data.PCO2_AIR(i);
 % end
 % 
 % annual_mean_PCO2_AIR=nanmean(reshapeddata_PCO2AIR,3);
 % difference=annualmeanPCO2-annual_mean_PCO2_AIR
-
+% 
 % figure(4); clf
 % worldmap world
 % contourfm(latgrid, longrid, difference(:,:,1),'linecolor','none');
@@ -149,9 +145,8 @@ Tmean_rep=repmat(Tmean,1,1,12)
 PCO2_Tmean=reshapeddata_PCO2.*exp(0.0423*(Tmean_rep-reshapeddata_SST))
 PCO2_BP=PCO2_Tmean
 
-annualmeanPCO2_rep=repmat(annualmeanPCO2,1,1,12)
+% annualmeanPCO2_rep=repmat(annualmeanPCO2,1,1,12)
 PCO2_Tobs=annualmeanPCO2_rep.*exp(0.0423*(reshapeddata_SST-Tmean_rep))
-PCO2_T=PCO2_Tobs
 
 
 %% 7. Pull out and plot the seasonal cycle data from stations of interest
@@ -169,12 +164,12 @@ PCO2_T=PCO2_Tobs
 
 [M_BATS_LON,I_BATS_LON]=min(abs(longrid-(-54.1+360)))
 
-for i=1:height(CO2data)
-   a=find(CO2data.LAT(i))==I_BATS_LAT;
-   b=find(CO2data.LON(i))==I_BATS_LON;
-   reshapeddata_SST_Berm(a,b)= CO2data.SST(i);
-end
-% Berm_SST= I_BATS_LAT,I_BATS_LON
+% for i=1:height(CO2data)
+%    a=find(CO2data.LAT(i))==I_BATS_LAT;
+%    b=find(CO2data.LON(i))==I_BATS_LON;
+%    reshapeddata_SST_Berm(a,b)= CO2data.SST(i);
+% end
+% % Berm_SST= I_BATS_LAT,I_BATS_LON
 % Berm_PCO2= 
 % Berm_PCO2_T= 
 % Berm_PCO2_BP= 
@@ -200,7 +195,7 @@ end
 %Seasonal Biological Drawdown of Seawater pCO2
 figure(6); clf
 worldmap world
-contourfm(latgrid, longrid, PCO2_BP(:,:,1),'linecolor','none');
+contourfm(latgrid, longrid, PCO2_Tobs(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Seasonal Biological Drawdown of Seawater pCO2')
@@ -212,7 +207,7 @@ scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
 %Seasonal Temperature Effect on Seawater pCO2
 figure(7); clf
 worldmap world
-contourfm(latgrid, longrid, PCO2_T(:,:,1),'linecolor','none');
+contourfm(latgrid, longrid, PCO2_BP(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Seasonal Temperature Effect on Seawater pCO2')
@@ -223,7 +218,7 @@ scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
 % The difference (T-B) between the effects on pCO2 of seasonalo temperature
 % changes and biology
 
-TBdiff=PCO2_T-PCO2_BP
+TBdiff=PCO2_BP-PCO2_Tobs
 figure(8); clf
 worldmap world
 contourfm(latgrid, longrid, TBdiff(:,:,1),'linecolor','none');
