@@ -1,5 +1,5 @@
 %% Add your names in a comment here at the beginning of the code!
-
+%Gabriella and Eva
 % Instructions: Follow through this code step by step, while also referring
 % to the overall instructions and questions from the lab assignment sheet.
 
@@ -15,11 +15,20 @@ CO2data = readtable(filename);
 %% 2a. Create new 3-dimensional arrays to hold reshaped data
 %Find each unique longitude, latitude, and month value that will define
 %your 3-dimensional grid
-longrid = unique(CO2data.LON); %finds all unique longitude values
-latgrid= unique(CO2data.LAT);
-month= unique(CO2data.MONTH);
+%finds all unique longitude values
+longrid = unique(CO2data.LON);
 %<-- following the same approach, find all unique latitude values
+latgrid= unique(CO2data.LAT);
  %<-- following the same approach, find all unique months
+month= unique(CO2data.MONTH);
+
+%Create empty 3-dimensional arrays of NaN values to hold your reshaped data
+    %You can make these for any variables you want to extract - for this
+    %lab you will need PCO2_SW (seawater pCO2) and SST (sea surface
+    %temperature)
+%LLM= [oceandata.LAT, oceandata.LON, oceandata.MONTH]
+%lat,log,month to put in pCO@ and SST
+%look one , by one, by one and then drop
 
 reshapeddata_PCO2=NaN(length(latgrid),length(longrid),length(month));
 
@@ -40,23 +49,10 @@ for i=1:height(CO2data)
 end
 
 
-
-
-%Create empty 3-dimensional arrays of NaN values to hold your reshaped data
-    %You can make these for any variables you want to extract - for this
-    %lab you will need PCO2_SW (seawater pCO2) and SST (sea surface
-    %temperature)
-%LLM= [oceandata.LAT, oceandata.LON, oceandata.MONTH]
-%lat,log,month to put in pCO@ and SST
-%look one , by one, by one and then drop
-
-
-
 %% 2b. Pull out the seawater pCO2 (PCO2_SW) and sea surface temperature (SST)
 %data and reshape it into your new 3-dimensional arrays
 
-
-%<--
+% This is above 
 
 %% 3a. Make a quick plot to check that your reshaped data looks reasonable
 %Use the imagesc plotting function, which will show a different color for
@@ -82,13 +78,13 @@ contourfm(latgrid, longrid, reshapeddata_SST(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('January Sea Surface Temperature (^oC)')
+
 %%
 %Check that you can make a similar type of global map for another month
 %and/or for pCO2 using this approach. Check the documentation and see
 %whether you can modify features of this map such as the contouring
 %interval, color of the contour lines, labels, etc.
 
-%<--
 figure(2); clf
 worldmap world
 contourfm(latgrid, longrid, reshapeddata_PCO2(:,:,1),'linecolor','none');
@@ -98,14 +94,11 @@ title('January pCO2')
 
 
 %% 4. Calculate and plot a global map of annual mean pCO2
-%<--
 
 
 annualmeanPCO2=nanmean(reshapeddata_PCO2,3);
-
 imagesc(annualmeanPCO2);
 
-%%
 figure(3); clf
 worldmap world
 contourfm(latgrid, longrid, annualmeanPCO2(:,:,1),'linecolor','none');
@@ -115,30 +108,42 @@ title('Annual Mean PCO2')
 
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
-%<--
 
-reshapeddata_PCO2AIR=NaN(length(latgrid),length(longrid),length(month));
+% reshapeddata_PCO2AIR=NaN(length(latgrid),length(longrid),length(month));
+% for i=1:height(CO2data)
+%    a=find(CO2data.LAT(i)==latgrid);
+%    b=find(CO2data.LON(i)==longrid);
+%    c=find(CO2data.MONTH(i)==month);
+%    reshapeddata_PCO2AIR(a,b,c)= CO2data.PCO2_AIR(i);
+% end
+% 
+% annual_mean_PCO2_AIR=nanmean(reshapeddata_PCO2AIR,3);
+% difference=annualmeanPCO2-annual_mean_PCO2_AIR
 
-for i=1:height(CO2data)
-   a=find(CO2data.LAT(i)==latgrid);
-   b=find(CO2data.LON(i)==longrid);
-   c=find(CO2data.MONTH(i)==month);
-   reshapeddata_PCO2AIR(a,b,c)= CO2data.PCO2_AIR(i);
-end
+% figure(4); clf
+% worldmap world
+% contourfm(latgrid, longrid, difference(:,:,1),'linecolor','none');
+% colorbar
+% geoshow('landareas.shp','FaceColor','black')
+% title('The difference annual mean PCO2 between seawater and air')
 
-annual_mean_PCO2_AIR=reshapeddata_PCO2AIR;
 
-difference=annualmeanPCO2-annual_mean_PCO2_AIR
+%Questions from 5 that we did wrong: Data set year 2006
+    %Next, search online to find a reputable data source to give you the atmospheric pCO2 in that year (this is a piece of information of wide interest so you may find it many places, but push yourselves to find an original data source). Record where you got this data from, how you selected this data source, and any methods you used to extract the mean atmospheric pCO2 data for the correct year from this source.
+        %381.6 from https://data.giss.nasa.gov/modelforce/ghgases/Fig1A.ext.txt
+    %Make a map plotting the difference between the annual mean seawater pCO2 and the mean atmospheric pCO2 that you have now found. Make sure to use a good colormap, and pay attention to where zero falls on that colormap!
+difference_online=annualmeanPCO2-381.6
 
-figure(4); clf
+figure(5); clf
 worldmap world
-contourfm(latgrid, longrid, difference(:,:,1),'linecolor','none');
+contourfm(latgrid, longrid, difference_online(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('The difference annual mean PCO2 between seawater and air')
+title('The difference between the annual mean of seawater and atmosphere')
+    %Based on the map you have created, where is the ocean a source versus sink of CO2 in its exchange with the atmosphere? Compare this with Figure 2 in Takahashi et al. 2002.
 
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
-%<--
+
 Tmean=nanmean(reshapeddata_SST,3)
 Tmean_rep=repmat(Tmean,1,1,12)
 PCO2_Tmean=reshapeddata_PCO2.*exp(0.0423*(Tmean_rep-reshapeddata_SST))
@@ -153,7 +158,10 @@ PCO2_T=PCO2_Tobs
 %Do for BATS, Station P, and Ross Sea (note that Ross Sea is along a
 %section of 14 degrees longitude - I picked the middle point)
 
-%<--
+%sea  surface  temp
+%observed seawater pco2
+%temp effects on pco2 over year
+%biophysical over 12
 
 %Bermuda
 
@@ -161,6 +169,15 @@ PCO2_T=PCO2_Tobs
 
 [M_BATS_LON,I_BATS_LON]=min(abs(longrid-(-54.1+360)))
 
+for i=1:height(CO2data)
+   a=find(CO2data.LAT(i))==I_BATS_LAT;
+   b=find(CO2data.LON(i))==I_BATS_LON;
+   reshapeddata_SST_Berm(a,b)= CO2data.SST(i);
+end
+% Berm_SST= I_BATS_LAT,I_BATS_LON
+% Berm_PCO2= 
+% Berm_PCO2_T= 
+% Berm_PCO2_BP= 
 
 % Ross Sea
 
@@ -181,7 +198,7 @@ PCO2_T=PCO2_Tobs
 % seasonal cycle above
 
 %Seasonal Biological Drawdown of Seawater pCO2
-figure(5); clf
+figure(6); clf
 worldmap world
 contourfm(latgrid, longrid, PCO2_BP(:,:,1),'linecolor','none');
 colorbar
@@ -193,7 +210,7 @@ scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
 
 %%
 %Seasonal Temperature Effect on Seawater pCO2
-figure(6); clf
+figure(7); clf
 worldmap world
 contourfm(latgrid, longrid, PCO2_T(:,:,1),'linecolor','none');
 colorbar
@@ -207,16 +224,12 @@ scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
 % changes and biology
 
 TBdiff=PCO2_T-PCO2_BP
-figure(6); clf
+figure(8); clf
 worldmap world
 contourfm(latgrid, longrid, TBdiff(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('The difference (T-B) between the effects on pCO2 of seasonalo temperature changes and biology')
+title('The difference (T-B) between the effects on pCO2 of seasonal temperature changes and biology')
 scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON), "filled", "r")
 scatterm(latgrid(I_RS_LAT),longrid(I_RS_LON),"filled", "r")
 scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
-
-
-
-
