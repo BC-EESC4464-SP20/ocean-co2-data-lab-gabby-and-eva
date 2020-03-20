@@ -145,8 +145,9 @@ Tmean_rep=repmat(Tmean,1,1,12)
 PCO2_Tmean=reshapeddata_PCO2.*exp(0.0423*(Tmean_rep-reshapeddata_SST))
 PCO2_BP=PCO2_Tmean
 
-% annualmeanPCO2_rep=repmat(annualmeanPCO2,1,1,12)
+annualmeanPCO2_rep=repmat(annualmeanPCO2,1,1,12)
 PCO2_Tobs=annualmeanPCO2_rep.*exp(0.0423*(reshapeddata_SST-Tmean_rep))
+PCO2_T=PCO2_Tobs
 
 
 %% 7. Pull out and plot the seasonal cycle data from stations of interest
@@ -164,28 +165,49 @@ PCO2_Tobs=annualmeanPCO2_rep.*exp(0.0423*(reshapeddata_SST-Tmean_rep))
 
 [M_BATS_LON,I_BATS_LON]=min(abs(longrid-(-54.1+360)))
 
-% for i=1:height(CO2data)
-%    a=find(CO2data.LAT(i))==I_BATS_LAT;
-%    b=find(CO2data.LON(i))==I_BATS_LON;
-%    reshapeddata_SST_Berm(a,b)= CO2data.SST(i);
-% end
-% % Berm_SST= I_BATS_LAT,I_BATS_LON
-% Berm_PCO2= 
-% Berm_PCO2_T= 
-% Berm_PCO2_BP= 
 
+
+PCO2_Berm=reshapeddata_PCO2(I_BATS_LAT,I_BATS_LON,:);
+plot(1:12, squeeze(PCO2_Berm(1,1,:)))
+hold on
+
+T_Berm=PCO2_Tobs(I_BATS_LAT,I_BATS_LON,:);
+plot(1:12, squeeze(T_Berm(1,1,:)))
+
+
+BP_Berm=PCO2_BP(I_BATS_LAT,I_BATS_LON,:);
+plot(1:12, squeeze(BP_Berm(1,1,:)))
+
+legend('Observed seawater PCO2','Temperature Effect','Biological Effect')
+title('Seasonal Cycle at BATS')
+xlabel('month')
+ylabel('pCO2 (uatm)')
+
+
+
+SST_Berm=reshapeddata_SST(I_BATS_LAT,I_BATS_LON,:);
+yy axis right
+plot(1:12, squeeze(SST_Berm(1,1,:)))
+legend('seawater temperature')
+ylabel('sea surface temperature (degree celcius')
+
+hold off
+
+%%
 % Ross Sea
 
 [M_RS_LAT,I_RS_LAT]=min(abs(latgrid+76.5))
 
 [M_RS_LON,I_RS_LON]=min(abs(longrid+(-173+360)))
 
-
+%%
 % P station
 
 [M_PS_LAT,I_PS_LAT]=min(abs(latgrid-50))
 
 [M_PS_LON,I_PS_LON]=min(abs(longrid+(145-360)))
+
+
 
 %% 8. Reproduce your own versions of the maps in figures 7-9 in Takahashi et al. 2002
 % But please use better colormaps!!!
