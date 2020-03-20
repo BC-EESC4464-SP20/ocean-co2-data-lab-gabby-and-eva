@@ -86,7 +86,7 @@ worldmap world
 contourfm(latgrid, longrid, reshapeddata_PCO2(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('January pCO2')
+title('January Seawater pCO2')
 
 
 %% 4. Calculate and plot a global map of annual mean pCO2
@@ -100,34 +100,16 @@ worldmap world
 contourfm(latgrid, longrid, annualmeanPCO2(:,:),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('Annual Mean PCO2')
+title('Annual Mean Seawater PCO2')
 
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
-
-% reshapeddata_PCO2AIR=NaN(length(latgrid),length(longrid),length(month));
-% for i=1:height(CO2data)
-%     a=find(CO2data.LAT(i)==latgrid);
-%     b=find(CO2data.LON(i)==longrid);
-%     c=find(CO2data.MONTH(i)==month);
-%     reshapeddata_PCO2AIR(a,b,c)= CO2data.PCO2_AIR(i);
-% end
-% 
-% annual_mean_PCO2_AIR=nanmean(reshapeddata_PCO2AIR,3);
-% difference=annualmeanPCO2-annual_mean_PCO2_AIR
-% 
-% figure(4); clf
-% worldmap world
-% contourfm(latgrid, longrid, difference(:,:,1),'linecolor','none');
-% colorbar
-% geoshow('landareas.shp','FaceColor','black')
-% title('The difference annual mean PCO2 between seawater and air')
-
 
 %Questions from 5 that we did wrong: Data set year 2006
     %Next, search online to find a reputable data source to give you the atmospheric pCO2 in that year (this is a piece of information of wide interest so you may find it many places, but push yourselves to find an original data source). Record where you got this data from, how you selected this data source, and any methods you used to extract the mean atmospheric pCO2 data for the correct year from this source.
         %381.6 from https://data.giss.nasa.gov/modelforce/ghgases/Fig1A.ext.txt
     %Make a map plotting the difference between the annual mean seawater pCO2 and the mean atmospheric pCO2 that you have now found. Make sure to use a good colormap, and pay attention to where zero falls on that colormap!
+
 difference_online=annualmeanPCO2-381.6
 
 figure(5); clf
@@ -135,7 +117,7 @@ worldmap world
 contourfm(latgrid, longrid, difference_online(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('The difference between the annual mean of seawater and atmosphere')
+title('Annual Mean Difference Between Seawater and Atmospheric pCO2 (2006)')
     %Based on the map you have created, where is the ocean a source versus sink of CO2 in its exchange with the atmosphere? Compare this with Figure 2 in Takahashi et al. 2002.
 
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
@@ -226,7 +208,7 @@ worldmap world
 contourfm(latgrid, longrid, PCO2_Tobs(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('Seasonal Biological Drawdown of Seawater pCO2')
+title('Seasonal Bio-physical Effect on Seawater pCO2')
 scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON),"filled", "r")
 scatterm(latgrid(I_RS_LAT),longrid(I_RS_LON),"filled", "r")
 scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
@@ -253,7 +235,7 @@ worldmap world
 contourfm(latgrid, longrid, TBdiff(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('The difference (T-B) between the effects on pCO2 of seasonal temperature changes and biology')
+title('The Difference Between the Seasonal Bio-physical and Temperature Effects (pCO2)')
 scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON), "filled", "r")
 scatterm(latgrid(I_RS_LAT),longrid(I_RS_LON),"filled", "r")
 scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
