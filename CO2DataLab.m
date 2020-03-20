@@ -92,7 +92,7 @@ title('January pCO2')
 %% 4. Calculate and plot a global map of annual mean pCO2
 
 
-annualmeanPCO2= mean(reshapeddata_PCO2,3);
+annualmeanPCO2=nanmean(reshapeddata_PCO2,3);
 imagesc(annualmeanPCO2);
 
 figure(3); clf
@@ -140,7 +140,7 @@ title('The difference between the annual mean of seawater and atmosphere')
 
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
 
-Tmean=mean(reshapeddata_SST,3)
+Tmean=nanmean(reshapeddata_SST,3)
 Tmean_rep=repmat(Tmean,1,1,12)
 PCO2_Tmean=reshapeddata_PCO2.*exp(0.0423*(Tmean_rep-reshapeddata_SST))
 PCO2_BP=PCO2_Tmean
@@ -161,16 +161,15 @@ PCO2_T=PCO2_Tobs
 
 %Bermuda
 
-
-
 [M_BATS_LAT,I_BATS_LAT]=min(abs(latgrid-32.5))
+
 [M_BATS_LON,I_BATS_LON]=min(abs(longrid-(-54.1+360)))
+
 
 
 PCO2_Berm=reshapeddata_PCO2(I_BATS_LAT,I_BATS_LON,:);
 plot(1:12, squeeze(PCO2_Berm(1,1,:)))
-
-hold on 
+hold on
 
 T_Berm=PCO2_Tobs(I_BATS_LAT,I_BATS_LON,:);
 plot(1:12, squeeze(T_Berm(1,1,:)))
@@ -193,20 +192,15 @@ legend('seawater temperature')
 ylabel('sea surface temperature (degree celcius')
 
 hold off
+
 %%
-
-%Bermuda
-
-[M_BATS_LAT,I_BATS_LAT]=min(abs(latgrid-32.5))
-
-[M_BATS_LON,I_BATS_LON]=min(abs(longrid-(-54.1+360)))
-
 % Ross Sea
 
 [M_RS_LAT,I_RS_LAT]=min(abs(latgrid+76.5))
 
 [M_RS_LON,I_RS_LON]=min(abs(longrid+(-173+360)))
 
+%%
 % P station
 
 [M_PS_LAT,I_PS_LAT]=min(abs(latgrid-50))
@@ -230,7 +224,6 @@ title('Seasonal Biological Drawdown of Seawater pCO2')
 scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON),"filled", "r")
 scatterm(latgrid(I_RS_LAT),longrid(I_RS_LON),"filled", "r")
 scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
-
 
 %%
 %Seasonal Temperature Effect on Seawater pCO2
