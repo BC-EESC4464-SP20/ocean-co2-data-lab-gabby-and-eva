@@ -183,8 +183,13 @@ ylabel('pCO2 (ppm)')
 SST_Berm=reshapeddata_SST(I_BATS_LAT,I_BATS_LON,:);
 yyaxis right
 plot(1:12, squeeze(SST_Berm(1,1,:)))
+
 ylabel('Sea Surface Temperature (^oC)')
 legend('Observed Seawater PCO2','Temperature Effect','Biological Effect','Seawater Temperature (^oC)','location','northwest')
+
+ylabel('sea surface temperature (degree celcius')
+legend('Observed seawater PCO2','Temperature Effect','Biological Effect','seawater temperature','location','northwest')
+
 
 hold off
 %%
@@ -225,6 +230,29 @@ hold off
 
 %%
 
+PCO2_RS=reshapeddata_PCO2(I_RS_LAT,I_RS_LON,:);
+plot(1:12, squeeze(PCO2_RS(1,1,:)))
+hold on
+T_RS=PCO2_Tobs(I_RS_LAT,I_RS_LON,:);
+plot(1:12, squeeze(T_RS(1,1,:)))
+
+BP_RS=PCO2_BP(I_RS_LAT,I_RS_LON,:);
+yyaxis left
+plot(1:12, squeeze(BP_RS(1,1,:)))
+
+title('Seasonal Cycle at Ross Sea Station')
+xlabel('month')
+ylabel('pCO2 (ppm)')
+SST_RS=reshapeddata_SST(I_RS_LAT,I_RS_LON,:);
+yyaxis right
+plot(1:12, squeeze(SST_RS(1,1,:)))
+ylabel('sea surface temperature (degree celcius')
+legend('Observed seawater PCO2','Temperature Effect','Biological Effect','seawater temperature','location','northwest')
+
+hold off
+
+%%
+
 % P station
 
 [M_PS_LAT,I_PS_LAT]=min(abs(latgrid-50))
@@ -248,8 +276,13 @@ ylabel('pCO2 (ppm)')
 SST_PS=reshapeddata_SST(I_PS_LAT,I_PS_LON,:);
 yyaxis right
 plot(1:12, squeeze(SST_PS(1,1,:)))
+
 ylabel('sea surface temperature (^oC)')
 legend('Observed Seawater PCO2','Temperature Effect','Biological Effect','Seawater Temperature (^oC)','location','northwest')
+
+ylabel('sea surface temperature (degree celcius')
+legend('Observed seawater PCO2','Temperature Effect','Biological Effect','seawater temperature','location','northwest')
+
 
 hold off
 
