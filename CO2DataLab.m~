@@ -105,6 +105,25 @@ title('Annual Mean PCO2 (uatm)')
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
 
+% reshapeddata_PCO2AIR=NaN(length(latgrid),length(longrid),length(month));
+% for i=1:height(CO2data)
+%     a=find(CO2data.LAT(i)==latgrid);
+%     b=find(CO2data.LON(i)==longrid);
+%     c=find(CO2data.MONTH(i)==month);
+%     reshapeddata_PCO2AIR(a,b,c)= CO2data.PCO2_AIR(i);
+% end 
+% annual_mean_PCO2_AIR=nanmean(reshapeddata_PCO2AIR,3);
+
+% difference=annualmeanPCO2-annual_mean_PCO2_AIR
+% 
+% figure(4); clf
+% worldmap world
+% contourfm(latgrid, longrid, difference(:,:,1),'linecolor','none');
+% colorbar
+% geoshow('landareas.shp','FaceColor','black')
+% title('The difference annual mean PCO2 between seawater and air')
+
+
 %Questions from 5 that we did wrong: Data set year 2006
     %Next, search online to find a reputable data source to give you the atmospheric pCO2 in that year (this is a piece of information of wide interest so you may find it many places, but push yourselves to find an original data source). Record where you got this data from, how you selected this data source, and any methods you used to extract the mean atmospheric pCO2 data for the correct year from this source.
         %381.6 from https://data.giss.nasa.gov/modelforce/ghgases/Fig1A.ext.txt
@@ -116,7 +135,7 @@ worldmap world
 contourfm(latgrid, longrid, difference_online(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('Annual Mean Difference of pCO2 in Seawater and the Atmosphere')
+title('The Difference Between the Annual Mean pCO2 of Seawater and the Atmosphere')
     %Based on the map you have created, where is the ocean a source versus sink of CO2 in its exchange with the atmosphere? Compare this with Figure 2 in Takahashi et al. 2002.
 
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
@@ -164,13 +183,8 @@ ylabel('pCO2 (ppm)')
 SST_Berm=reshapeddata_SST(I_BATS_LAT,I_BATS_LON,:);
 yyaxis right
 plot(1:12, squeeze(SST_Berm(1,1,:)))
-
-ylabel('Sea Surface Temperature (^oC)')
-legend('Observed Seawater PCO2','Temperature Effect','Biological Effect','Seawater Temperature (^oC)','location','northwest')
-
-ylabel('sea surface temperature (^oC')
+ylabel('sea surface temperature (degree celcius')
 legend('Observed seawater PCO2','Temperature Effect','Biological Effect','seawater temperature','location','northwest')
-
 
 hold off
 %%
@@ -185,31 +199,8 @@ hold off
 
 [M_RS_LAT,I_RS_LAT]=min(abs(latgrid+76.5))
 
-[M_RS_LON,I_RS_LON]=min(abs(longrid-(-173+360)))
+[M_RS_LON,I_RS_LON]=min(abs(longrid+(-173+360)))
 
-
-PCO2_RS=reshapeddata_PCO2(I_RS_LAT,I_RS_LON,:);
-plot(1:12, squeeze(PCO2_RS(1,1,:)))
-hold on
-T_RS=PCO2_Tobs(I_RS_LAT,I_RS_LON,:);
-plot(1:12, squeeze(T_RS(1,1,:)))
-
-BP_RS=PCO2_BP(I_RS_LAT,I_RS_LON,:);
-yyaxis left
-plot(1:12, squeeze(BP_RS(1,1,:)))
-
-title('Seasonal Cycle at Ross Sea Station')
-xlabel('month')
-ylabel('pCO2 (ppm)')
-SST_RS=reshapeddata_SST(I_RS_LAT,I_RS_LON,:);
-yyaxis right
-plot(1:12, squeeze(SST_RS(1,1,:)))
-ylabel('Sea Surface Temperature (^oC)')
-legend('Observed Seawater PCO2','Temperature Effect','Biological Effect','Seawater Temperature (^oC)','location','northwest')
-
-hold off
-
-%%
 
 PCO2_RS=reshapeddata_PCO2(I_RS_LAT,I_RS_LON,:);
 plot(1:12, squeeze(PCO2_RS(1,1,:)))
@@ -257,13 +248,8 @@ ylabel('pCO2 (ppm)')
 SST_PS=reshapeddata_SST(I_PS_LAT,I_PS_LON,:);
 yyaxis right
 plot(1:12, squeeze(SST_PS(1,1,:)))
-
-ylabel('sea surface temperature (^oC)')
-legend('Observed Seawater PCO2','Temperature Effect','Biological Effect','Seawater Temperature (^oC)','location','northwest')
-
 ylabel('sea surface temperature (degree celcius')
 legend('Observed seawater PCO2','Temperature Effect','Biological Effect','seawater temperature','location','northwest')
-
 
 hold off
 
@@ -276,7 +262,7 @@ hold off
 %Seasonal Biological Drawdown of Seawater pCO2
 figure(6); clf
 worldmap world
-contourfm(latgrid, longrid, PCO2_BP(:,:,1),'linecolor','none');
+contourfm(latgrid, longrid, PCO2_Tobs(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Seasonal Bio-Physical Effect on Seawater pCO2')
@@ -289,7 +275,7 @@ scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
 %Seasonal Temperature Effect on Seawater pCO2
 figure(7); clf
 worldmap world
-contourfm(latgrid, longrid, PCO2_T(:,:,1),'linecolor','none');
+contourfm(latgrid, longrid, PCO2_BP(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Seasonal Temperature Effect on Seawater pCO2')
@@ -301,51 +287,13 @@ scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
 % The difference (T-B) between the effects on pCO2 of seasonalo temperature
 % changes and biology
 
-TBdiff=PCO2_T-PCO2_BP
+TBdiff=PCO2_BP-PCO2_Tobs
 figure(8); clf
 worldmap world
 contourfm(latgrid, longrid, TBdiff(:,:,1),'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('Annual Mean Difference Between Seawater and Atmospheric pCO2')
+title('Annual Mean Difference etween seawater and atmospheric pCO2.')
 scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON), "filled", "r")
 scatterm(latgrid(I_RS_LAT),longrid(I_RS_LON),"filled", "r")
 scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
-%% Extension
-%Station at -76 and -4
-
-[M_EX_LAT,I_EX_LAT]=min(abs(latgrid-76))
-
-[M_EX_LON,I_EX_LON]=min(abs(longrid-(-4+360)))
-
-figure(9); clf
-worldmap world
-colorbar
-geoshow('landareas.shp','FaceColor','black')
-scatterm(latgrid(I_BATS_LAT),longrid(I_BATS_LON), "filled", "r")
-scatterm(latgrid(I_RS_LAT),longrid(I_RS_LON),"filled", "r")
-scatterm(latgrid(I_PS_LAT),longrid(I_PS_LON),"filled", "r")
-scatterm(latgrid(I_EX_LAT),longrid(I_EX_LON),"filled", "r")
-
-%% Extension 
-
-PCO2_EX=reshapeddata_PCO2(I_EX_LAT,I_EX_LON,:);
-plot(1:12, squeeze(PCO2_EX(1,1,:)))
-hold on
-T_EX=PCO2_Tobs(I_EX_LAT,I_EX_LON,:);
-plot(1:12,squeeze(T_EX(1,1,:)))
-
-BP_EX=PCO2_BP(I_EX_LAT,I_EX_LON,:);
-yyaxis left
-plot(1:12, squeeze(BP_EX(1,1,:)))
-
-title('Seasonal Cycle at Experimental Station')
-xlabel('month')
-ylabel('pCO2 (ppm)')
-SST_EX=reshapeddata_SST(I_EX_LAT,I_EX_LON,:);
-yyaxis right
-plot(1:12, squeeze(SST_EX(1,1,:)))
-ylabel('Sea Surface Temperature (^oC)')
-legend('Observed Seawater PCO2','Temperature Effect','Biological Effect','Seawater Temperature (^oC)','location','northwest')
-
-hold off
